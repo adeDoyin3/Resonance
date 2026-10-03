@@ -1,0 +1,13 @@
+@import "tailwindcss";
+@font-face {
+  font-family: "customFont";
+  src: url("../public/fonts/JacklinDemoRegular-XGp5o.ttf");
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  font-family: "customFont", Arial, sans-serif;
+  background-color: #000000;
+}

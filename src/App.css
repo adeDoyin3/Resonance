@@ -1,0 +1,5 @@
+@import "tailwindcss";
+@font-face {
+  font-family: "customfont";
+  src: url("../public/fonts/JacklinDemoRegular-XGp5o.ttf");
+}

@@ -1,5 +1,4 @@
 ﻿import axios from "axios";
-import { useParams } from "react-router-dom";
 
 const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
 const redirectUri = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;

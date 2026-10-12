@@ -1,9 +1,21 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useCallback, useContext, useMemo, useState } from "react";
 import { loginToSpotify, requestTokens } from "../service/auth";
+import type { SpotifyTokenResponse } from "../service/auth";
 
-const AuthContext = React.createContext(null);
+interface AuthContextValue {
+  accessToken: string | null;
+  refreshToken: string | null;
+  isAuthenticated: boolean;
+  login: () => Promise<void>;
+  completeLogin: (code: string, state: string) => Promise<SpotifyTokenResponse>;
+  logout: () => void;
+}
 
-const AuthContextProvider = ({ children }) => {
+const AuthContext = React.createContext<AuthContextValue | undefined>(
+  undefined,
+);
+
+const AuthContextProvider = ({ children }: React.PropsWithChildren) => {
   const [accessToken, setAccessToken] = useState(() =>
     localStorage.getItem("access_token"),
   );
@@ -11,11 +23,11 @@ const AuthContextProvider = ({ children }) => {
     localStorage.getItem("refresh_token"),
   );
 
-  const login = async () => {
+  const login = useCallback(async (): Promise<void> => {
     await loginToSpotify();
-  };
+  }, []);
 
-  const completeLogin = async (code, state) => {
+  const completeLogin = useCallback(async (code: string, state: string) => {
     const response = await requestTokens(code, state);
 
     if (response?.access_token) {
@@ -27,16 +39,16 @@ const AuthContextProvider = ({ children }) => {
     }
 
     return response;
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
     setAccessToken(null);
     setRefreshToken(null);
-  };
+  }, []);
 
-  const value = useMemo(
+  const value = useMemo<AuthContextValue>(
     () => ({
       accessToken,
       refreshToken,
@@ -45,7 +57,7 @@ const AuthContextProvider = ({ children }) => {
       completeLogin,
       logout,
     }),
-    [accessToken, refreshToken],
+    [accessToken, refreshToken, login, completeLogin, logout],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

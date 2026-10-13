@@ -1,11 +1,11 @@
 
 
+import RankedTrackList from "../components/Track-components/RankedTrackList";
+
 export default function Tracks() {
-
-
   return (
-    <div className="min-h-screen">
-
-    </div>
+    <main className="min-h-screen">
+      <RankedTrackList />
+    </main>
   );
 }

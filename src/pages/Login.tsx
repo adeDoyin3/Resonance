@@ -1,23 +1,8 @@
-﻿import loginArtwork from "../assets/login-image.png";
-import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import loginArtwork from "../assets/login-image.png";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const { login } = useAuth();
-  const [error, setError] = useState<string | null>(null);
-
-  const handleLogin = async () => {
-    setError(null);
-    try {
-      await login();
-    } catch (loginError) {
-      setError(
-        loginError instanceof Error
-          ? loginError.message
-          : "Spotify sign-in could not be started.",
-      );
-    }
-  };
+  const navigate = useNavigate();
 
   return (
     <main className="relative grid min-h-svh place-items-center isolate overflow-hidden bg-[#080b10] text-[#f7f4ed]">
@@ -51,16 +36,11 @@ export default function Login() {
 
         <button
           type="button"
-          onClick={() => void handleLogin()}
-          className="relative z-10 inline-flex min-w-45 items-center justify-center gap-2 rounded-[3px] border border-[#4ddd87]/80 bg-[#0c1311c7] px-4 py-3 text-[.68rem] font-semibold text-[#f7f4ed] shadow-[0_8px_24px_rgba(0,0,0,.26)] transition hover:-translate-y-0.5 hover:bg-[#1db954] hover:shadow-[0_10px_30px_rgba(29,185,84,.25)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+          onClick={() => navigate("/track")}
+          className="relative z-10 inline-flex min-w-45 items-center justify-center gap-2 rounded-[3px] border border-[#4ddd87]/80 bg-[#0c1311c7] px-4 py-3 text-[.68rem] font-semibold text-[#f7f4ed] shadow-[0_8px_24px_rgba(0,0,0,.26)] transition"
         >
           Connect with Spotify
         </button>
-        {error && (
-          <p className="mt-4 text-sm text-red-200" role="alert">
-            {error}
-          </p>
-        )}
       </section>
     </main>
   );

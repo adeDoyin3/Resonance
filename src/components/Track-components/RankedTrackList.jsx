@@ -25,7 +25,7 @@ const RankedTrackList = ({ tracks }) => {
       <div className="overflow-hidden rounded-md border border-white/[0.06]">
         {items.map((track, index) => {
             const spotifyTrack = track?.track ?? track;
-            return (<TrackRow key={spotifyTrack.id ?? `${spotifyTrack.name}-${index}`} rank={String(index + 1).padStart(2, "0")} title={spotifyTrack.name ?? "Unknown track"} artist={spotifyTrack.artists?.[0]?.name ?? "Unknown artist"} album={spotifyTrack.album?.name ?? "Unknown album"} duration={formatDuration(spotifyTrack.duration_ms ?? 0)}/>);
+            return (<TrackRow key={spotifyTrack.id ?? `${spotifyTrack.name}-${index}`} rank={String(index + 1).padStart(2, "0")} title={spotifyTrack.name ?? "Unknown track"} artist={spotifyTrack.artists?.[0]?.name ?? "Unknown artist"} album={spotifyTrack.album?.name ?? "Unknown album"} duration={formatDuration(spotifyTrack.duration_ms ?? 0)} imageUrl={spotifyTrack.album?.images?.[0]?.url}/>);
         })}
       </div>
     </section>);

@@ -1,4 +1,4 @@
-const TrackRow = ({ rank = "01", title = "As It Was", artist = "Harry Styles", album = "Harry's House", duration = "2:37", }) => {
+const TrackRow = ({ rank, title, artist, album, duration, imageUrl }) => {
     return (<article className="group grid min-h-[106px] grid-cols-[48px_56px_minmax(0,1fr)_42px] items-center gap-4 border-b border-white/[0.06] bg-gradient-to-r from-[#111111] to-[#0c0c0c] px-5 transition-colors duration-200 hover:from-[#171717] hover:to-[#101010] sm:grid-cols-[64px_56px_minmax(0,1fr)_48px] sm:gap-5 sm:px-6 md:min-h-[108px] md:grid-cols-[80px_56px_minmax(0,1fr)_52px] md:gap-6 md:px-8">
       <span className={`font-serif text-[34px] font-light leading-none tracking-[-0.06em] text-[#8d8b88] sm:text-[42px] md:text-[48px] `} style={{
             color: Number(rank) === 1
@@ -10,13 +10,19 @@ const TrackRow = ({ rank = "01", title = "As It Was", artist = "Harry Styles", a
         {rank}
       </span>
 
-      <div aria-label={`${album} album artwork`} role="img" className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-[3px] border border-white/10 bg-[#c9c6bf] shadow-[0_5px_18px_rgba(0,0,0,0.35)]">
-        <div className="absolute inset-[5px] flex items-center justify-center overflow-hidden bg-[#23333a]">
-          <span className="-rotate-90 whitespace-nowrap font-serif text-[10px] font-light tracking-[0.16em] text-[#df4935]">
+      <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-[3px] border border-white/10 bg-[#c9c6bf] shadow-[0_5px_18px_rgba(0,0,0,0.35)]">
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={`${album} album artwork`}
+            className="h-full w-full object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <span className="px-1 text-center font-serif text-[8px] text-[#23333a]">
             {album}
           </span>
-          <span className="absolute -right-2 bottom-1 h-6 w-6 rounded-full bg-[#dc4c27]"/>
-        </div>
+        )}
       </div>
 
       <div className="min-w-0 ">

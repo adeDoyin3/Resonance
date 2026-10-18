@@ -26,3 +26,60 @@ export const getUserTopTracks = async () => {
 
   return response.json();
 };
+
+export const getRecentlyPlayedTracks = async () => {
+  const accessToken = sessionStorage.getItem("access_token");
+
+  if (!accessToken) {
+    throw new Error("Spotify access token is missing.");
+  }
+
+  const endpoint = `${APIENDPOINT}/me/player/recently-played`;
+
+  const response = await fetch(endpoint, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(
+      errorData.error?.message ||
+        `Failed to fetch top tracks: ${response.status}`
+    );
+  }
+
+  return response.json();
+
+  }
+
+
+  export const getUserTopArtists = async () => {
+  const accessToken = sessionStorage.getItem("access_token");
+
+  if (!accessToken) {
+    throw new Error("Spotify access token is missing.");
+  }
+
+  const endpoint = `${APIENDPOINT}/me/top/artists`;
+
+  const response = await fetch(endpoint, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(
+      errorData.error?.message ||
+        `Failed to fetch top tracks: ${response.status}`
+    );
+  }
+
+  return response.json();
+
+  }

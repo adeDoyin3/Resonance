@@ -1,6 +1,5 @@
 import TrackRow from "./TrackRow";
 import { mockTracks } from "../../data/mockData";
-import { useFilter } from "../../hooks/useFilter";
 
 const RankedTrackList = () => {
   // const filteredTracks = useFilter(mockTracks, (data) => {
@@ -25,7 +24,7 @@ const RankedTrackList = () => {
         </span>
       </div>
       <div className="overflow-hidden rounded-md border border-white/[0.06]">
-        {mockTracks.map((track, i) => (
+        {mockTracks.map((track) => (
           <TrackRow key={track.rank} {...track} />
         ))}
       </div>

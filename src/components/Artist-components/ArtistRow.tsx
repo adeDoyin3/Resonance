@@ -9,7 +9,6 @@ const ArtistRow = ({
   rank = "01",
   name = "Harry Styles",
   genres = ["Pop", "Indie pop", "Soft rock"],
-  imageUrl,
 }: ArtistRowProps) => {
   return (
     <article className="group relative isolate flex min-h-[120px] w-full items-end overflow-hidden border-b border-white/[0.05]  px-5 py-5 sm:min-h-[138px] sm:items-center sm:px-8 sm:py-6 md:min-h-[150px] md:px-12">

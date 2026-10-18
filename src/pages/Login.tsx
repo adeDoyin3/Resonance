@@ -1,8 +1,75 @@
-import loginArtwork from "../assets/login-image.png";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import loginArtwork from "../assets/login-image.png";
+import useAuth from "../hooks/useAuth";
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login, completeLogin, isLoggedIn } = useAuth();
+
+  const [isSigningIn, setIsSigningIn] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(() =>
+    new URLSearchParams(window.location.search).has("error")
+      ? "Spotify authorization failed. Please connect again."
+      : null,
+  );
+  const tokenRequestRef = useRef<ReturnType<typeof completeLogin> | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    const spotifyError = params.get("error");
+
+    if (spotifyError) {
+      console.error("Spotify authorization failed:", spotifyError);
+      return;
+    }
+
+    if (!code) {
+      if (isLoggedIn) navigate("/track", { replace: true });
+      return;
+    }
+
+    let isCurrent = true;
+
+    const finishLogin = async () => {
+      setIsSigningIn(true);
+
+      try {
+        tokenRequestRef.current ??= completeLogin();
+        const response = await tokenRequestRef.current;
+
+        if (!response?.access_token) {
+          throw new Error("Spotify access token is missing.");
+        }
+
+        if (isCurrent) {
+          window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname,
+          );
+
+          navigate("/track", { replace: true });
+        }
+      } catch (error) {
+        console.error("Spotify login failed:", error);
+        if (isCurrent) {
+          setLoginError("Could not complete Spotify login. Please connect again.");
+        }
+      } finally {
+        if (isCurrent) {
+          setIsSigningIn(false);
+        }
+      }
+    };
+
+    void finishLogin();
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [completeLogin, isLoggedIn, navigate]);
 
   return (
     <main className="relative grid min-h-svh place-items-center isolate overflow-hidden bg-[#080b10] text-[#f7f4ed]">
@@ -36,11 +103,17 @@ export default function Login() {
 
         <button
           type="button"
-          onClick={() => navigate("/track")}
+          onClick={login}
+          disabled={isSigningIn}
           className="relative z-10 inline-flex min-w-45 items-center justify-center gap-2 rounded-[3px] border border-[#4ddd87]/80 bg-[#0c1311c7] px-4 py-3 text-[.68rem] font-semibold text-[#f7f4ed] shadow-[0_8px_24px_rgba(0,0,0,.26)] transition"
         >
-          Connect with Spotify
+          {isSigningIn ? "Signing in..." : "Connect with Spotify"}
         </button>
+        {loginError && (
+          <p role="alert" className="mt-4 text-sm text-red-300">
+            {loginError}
+          </p>
+        )}
       </section>
     </main>
   );

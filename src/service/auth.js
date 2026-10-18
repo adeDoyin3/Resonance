@@ -53,7 +53,6 @@ export const loginWithSpotify = async () => {
     sessionStorage.setItem("state", state);
     const scope = [
         "user-top-read",
-      "user-read-recently-played",
         "user-read-recently-played",
     ].join(" ");
 

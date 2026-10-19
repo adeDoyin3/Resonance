@@ -7,7 +7,7 @@ const HomePageLayout = () => {
     return (<div className="min-h-screen  text-white">
       <Navbar />
       {/* <Hero title="Your listening" /> */}
-      {location.pathname === "/track" ? (<Hero title="Your listening"/>) : location.pathname === "/artist" ? (<Hero title="Top Artist "/>) : location.pathname === "/genres" || location.pathname === "/recent" ? null : location.pathname === "/albums" ? (<Hero title="Top Albulm"/>) : (<Hero title="RECENT PLAYS"/>)}
+      {location.pathname === "/track" ? (<Hero title="Your listening"/>) : location.pathname === "/artist" ? (<Hero title="Top Artist "/>) : location.pathname === "/genres" || location.pathname === "/recent" ? null : location.pathname === "/albums" ? (<Hero title="Top Albums"/>) : (<Hero title="RECENT PLAYS"/>)}
       <Outlet />
     </div>);
 };

@@ -1,4 +1,5 @@
 import RecentlyPlayedTable from "../components/Recently-played/RecentlyPlayedTable";
+import RecentlyPlayedSkeleton from "../components/Recently-played/RecentlyPlayedSkeleton";
 import { useGetRecentlyPlayedTracks } from "../queries/user";
 
 export default function Recent() {
@@ -12,7 +13,7 @@ export default function Recent() {
         </h1>
       </header>
       {isPending ? (
-        <p role="status">Loading recently played tracks...</p>
+        <RecentlyPlayedSkeleton />
       ) : isError ? (
         <p role="alert">{error.message}</p>
       ) : (

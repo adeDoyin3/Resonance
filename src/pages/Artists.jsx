@@ -1,11 +1,17 @@
 import RankedArtistRow from "../components/Artist-components/RankedArtistRow";
+import ArtistListSkeleton from "../components/Artist-components/ArtistListSkeleton";
 import { useGetUserTopArtists } from "../queries/user";
 
 export default function Artists() {
-  const { data, isPending, isError, error } = useGetUserTopArtists();
+  const { data, isPending, isFetching, isError, error } =
+    useGetUserTopArtists();
 
-  if (isPending) {
-    return <main className="min-h-screen">Loading top artists...</main>;
+  if (isPending || isFetching) {
+    return (
+      <main className="min-h-screen">
+        <ArtistListSkeleton />
+      </main>
+    );
   }
 
   if (isError) {

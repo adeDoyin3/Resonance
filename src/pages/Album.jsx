@@ -1,5 +1,6 @@
 import { useState } from "react";
 import RankedAlbumList from "../components/Album-components/RankedAlbumList";
+import AlbumListSkeleton from "../components/Album-components/AlbumListSkeleton";
 import useAuth from "../hooks/useAuth";
 import { useGetUserTopAlbums } from "../queries/user";
 
@@ -19,24 +20,6 @@ export default function Album() {
     return (
       <main className="min-h-screen px-5 py-8 text-sm text-[#99938b]">
         Connect your Spotify account to see your top albums.
-      </main>
-    );
-  }
-
-  if (isPending) {
-    return (
-      <main className="min-h-screen px-5 py-8 text-sm text-[#99938b]">
-        Loading top albums...
-      </main>
-    );
-  }
-
-  if (isError) {
-    return (
-      <main className="min-h-screen px-5 py-8">
-        <p role="alert" className="text-sm text-[#f2f0ec]">
-          {error.message}
-        </p>
       </main>
     );
   }
@@ -63,7 +46,15 @@ export default function Album() {
           ))}
         </select>
       </div>
-      <RankedAlbumList albums={albums ?? []} />
+      {isPending ? (
+        <AlbumListSkeleton />
+      ) : isError ? (
+        <p role="alert" className="px-5 py-8 text-sm text-[#f2f0ec]">
+          {error.message}
+        </p>
+      ) : (
+        <RankedAlbumList albums={albums ?? []} />
+      )}
     </main>
   );
 }

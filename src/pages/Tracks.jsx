@@ -1,12 +1,16 @@
 import RankedTrackList from "../components/Track-components/RankedTrackList";
+import TrackListSkeleton from "../components/Track-components/TrackListSkeleton";
 import { useGetUserTopTracks } from "../queries/user";
 
 export default function Tracks() {
   const { data, isPending, isError, error } = useGetUserTopTracks();
-  console.log(data)
 
   if (isPending) {
-    return <main className="min-h-screen">Loading top tracks...</main>;
+    return (
+      <main className="min-h-screen">
+        <TrackListSkeleton />
+      </main>
+    );
   }
 
   if (isError) {
